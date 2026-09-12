@@ -27,10 +27,10 @@ The project will investigate how capable a useful bilingual conversational AI sy
 
 **Lenovo IdeaPad 120S-11IAP**
 
-- CPU: To be documented
+- CPU: Intel Celeron N3350
 - RAM: 4 GB
 - Storage: 32 GB
-- Operating system: To be determined
+- Operating system: Ubuntu 26.04 LTS
 
 ## Project Philosophy
 
@@ -42,7 +42,7 @@ AI assistants may be used to help with research, programming, debugging and lear
 
 ## Current Status
 
-**Phase 0 — Project setup**
+**Phase 1 — Document Lenovo hardware**
 
 The repository and documentation structure are being established.
 
