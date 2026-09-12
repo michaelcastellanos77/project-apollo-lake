@@ -4,13 +4,14 @@ Last updated: 2026-09-12
 
 ## Current Phase
 
-**Phase 0 — Project setup**
+**Phase 1 — Document Lenovo hardware**
 
 ## Completed
 
 - GitHub repository created
 - Initial README created
 - Shared AI context document created
+- Gathered info on the specific hardware of the Lenovo 120S-11IAP
 
 ## Hardware
 
@@ -24,10 +25,10 @@ Storage:
 32 GB
 
 CPU:
-Not yet documented
+Intel Celeron N3350
 
 Operating system:
-Not yet selected
+Ubuntu 26.04 LTS
 
 ## AI System
 
@@ -63,7 +64,7 @@ Document the Lenovo hardware and establish a baseline before making architectura
 
 ## Next Action
 
-Investigate and document the exact CPU, memory, storage and hardware capabilities of the Lenovo 120S-11IAP.
+Investigate and document the exact CPU, memory, storage and hardware capabilities of the Lenovo 120S-11IAP then document findings in LEARNING-NOTES.md.
 
 ## Known Risks
 
@@ -75,7 +76,8 @@ Investigate and document the exact CPU, memory, storage and hardware capabilitie
 
 ## Open Questions
 
-- Which exact CPU is installed?
+- Which exact CPU is installed? 
+Answer: Intel Celeron N3350
 - Which operating system is most appropriate?
 - Which LLM can provide the best bilingual performance within the hardware limits?
 - Which quantisation level provides the best quality/performance trade-off?
