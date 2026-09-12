@@ -106,3 +106,16 @@ The principal expected bottlenecks are:
 5. Very limited available disk space
 
 These constraints make hardware-aware model selection, quantisation and system optimisation central to the project.
+
+
+### Operating System, Storage and System Management
+
+Further investigation of the system software, storage configuration, CPU frequency management and thermal state produced the following findings:
+
+- **Operating system:** The laptop is running Ubuntu 26.04 LTS (codename `resolute`).
+- **Storage management:** The internal 32 GB eMMC storage uses LVM. The LVM volume group contains approximately 26.1 GB, with approximately 13.0 GB currently allocated to the root logical volume and approximately 13.0 GB remaining unallocated within the volume group.
+- **CPU frequency management:** The CPU currently uses the Linux `schedutil` frequency governor, which dynamically adjusts CPU frequency according to system workload.
+- **Thermal state:** At the time of measurement, the reported Linux thermal-zone readings ranged from approximately 20°C to 38°C. These readings represent multiple thermal zones and should not yet be assumed to correspond directly to CPU temperature.
+- **Initial implication:** The machine has substantial unallocated capacity within its LVM volume group. CPU frequency is being managed dynamically by Linux, and the system was not reporting high thermal readings during this measurement.
+
+**Investigation method:** The following Linux commands were used to obtain these findings: `lsb_release -a`, `sudo vgs`, `sudo lvs`, the CPU frequency governor query under `/sys/devices/system/cpu/`, and the thermal-zone query under `/sys/class/thermal/`.
