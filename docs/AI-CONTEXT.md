@@ -31,7 +31,7 @@ Current year:
 Year 2
 
 Mandarin:
-Approximately HSK 5
+above HSK 5
 
 ## Target Hardware
 
