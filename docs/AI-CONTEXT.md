@@ -45,7 +45,7 @@ Storage:
 32 GB
 
 CPU:
-To be investigated
+Intel Celeron N3350
 
 ## Core Requirements
 
@@ -80,7 +80,7 @@ The GitHub repository is the authoritative source of project state.
 
 ## Current Phase
 
-Phase 0 — Project setup and documentation.
+Phase 1 — Documenting and investigating Lenovo 120S-11IAP Hardware.
 
 ## Current Objective
 
@@ -110,3 +110,19 @@ When helping with this project:
 - Do not assume that previous conversations are available.
 - Treat the GitHub repository as the project's source of truth.
 - Clearly distinguish established facts, measurements, assumptions and recommendations.
+
+
+Project Apollo Lake's GitHub repository is the authoritative source of truth. When repository information is required, do not rely solely on the repository root page or search-result snippets. Navigate directly into the repository's files and folders, particularly docs/, and read the relevant files. If a file appears to be missing from the repository root, verify by directly opening the expected file path before concluding that it does not exist.
+
+Repository: https://github.com/michaelcastellanos77/project-apollo-lake
+
+Important current files include:
+
+README.md
+docs/AI-CONTEXT.md
+docs/CURRENT-STATE.md
+docs/DECISIONS.md
+docs/LEARNING-NOTES.md
+docs/hardware.md
+
+Never claim that a file is absent merely because it is not displayed on the repository root page. If the repository root appears inconsistent with the expected file structure, attempt to access the specific file directly. If direct access also fails, say that access failed rather than assuming the file does not exist.
