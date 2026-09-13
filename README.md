@@ -50,7 +50,7 @@ No final AI model, operating system or software architecture has yet been select
 
 ## Roadmap
 
-- [ ] Document Lenovo hardware
+- [v] Document Lenovo hardware
 - [ ] Establish performance baseline
 - [ ] Investigate operating systems
 - [ ] Benchmark local LLMs
