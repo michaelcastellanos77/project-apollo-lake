@@ -76,8 +76,6 @@ Investigate and document the exact CPU, memory, storage and hardware capabilitie
 
 ## Open Questions
 
-- Which exact CPU is installed? 
-Answer: Intel Celeron N3350
 - Which operating system is most appropriate?
 - Which LLM can provide the best bilingual performance within the hardware limits?
 - Which quantisation level provides the best quality/performance trade-off?
