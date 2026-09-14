@@ -1,0 +1,67 @@
+# Experiment 002 — Alpine Controlled Benchmark Environment
+
+**Date:** 2026-09-14  
+**Status:** In progress
+
+## Question
+
+Can Alpine Linux provide a minimal, controlled environment for establishing the practical hardware performance ceiling of the Lenovo IdeaPad 120S-11IAP?
+
+## Hypothesis
+
+A minimal Alpine Linux environment should introduce less unnecessary RAM usage and background system activity than the normal Ubuntu installation, allowing a larger proportion of the Lenovo's limited resources to be available for controlled benchmarking and later AI workloads.
+
+## Hardware
+
+- Device: Lenovo IdeaPad 120S-11IAP
+- CPU: Intel Celeron N3350
+- Physical RAM: 4 GB
+- Internal storage: 32 GB SanDisk iNAND eMMC
+- Architecture: x86-64
+
+## Benchmark Environment
+
+- OS: Alpine Linux 3.24.1
+- Kernel: 6.18.35-0-lts
+- Boot medium: external 128 GB microSD card via USB card reader
+- Environment: minimal command-line Alpine system
+- Power: AC power
+- Internal Ubuntu installation: left untouched
+
+## Initial Observations
+
+Alpine successfully booted from the external removable media and reached the root shell.
+
+Initial memory state:
+
+- Total memory reported: 3.7 GiB
+- Used memory: 124.5 MiB
+- Free memory: 3.2 GiB
+- Available memory: 3.3 GiB
+- Swap: 0
+
+Initial system activity:
+
+- Uptime: approximately 7 minutes
+- Load average: 0.03 / 0.03 / 0.00
+
+The Alpine environment is therefore very lightly loaded immediately after boot.
+
+## Tool Availability
+
+The following commands were not available in the initial minimal environment:
+
+- `lscpu`
+- `lsblk`
+
+This is expected for a highly minimal Alpine environment and means that additional measurement utilities will need to be installed deliberately before detailed benchmarking.
+
+## Interpretation
+
+The initial Alpine environment has a very low idle memory footprint and negligible CPU load. Compared with the previously recorded Ubuntu baseline, Alpine currently leaves more memory available to applications.
+
+This does not by itself demonstrate higher application or AI performance. CPU frequency behaviour, sustained CPU performance, storage performance, thermal behaviour and software overhead must be measured separately.
+
+## Next Step
+
+Install only the required system monitoring and benchmarking utilities, then establish a controlled Alpine hardware baseline before running AI-specific benchmarks.
