@@ -36,6 +36,14 @@ The CPU reports support for a number of instruction sets including:
 
 The absence of AVX/AVX2 is potentially significant for local AI inference performance and will be investigated during benchmarking.
 
+## Integrated GPU
+
+The Intel Celeron N3350 includes an **Intel HD Graphics 500** integrated GPU. The GPU is supported by Linux through the Intel `i915` driver and can provide graphics/compute capabilities through Linux graphics APIs including Vulkan and OpenCL.
+
+The iGPU is therefore technically available to Project Apollo Lake, but its usefulness for local AI inference is currently unknown. Whether the HD Graphics 500 can provide a meaningful performance improvement for LLM inference will be determined experimentally rather than assumed.
+
+**Conclusion:** iGPU support should be preserved where practical, but it is not currently a hard requirement for the final AI architecture or benchmark environment.
+
 ## Memory
 
 BIOS-reported memory:
@@ -119,3 +127,14 @@ Further investigation of the system software, storage configuration, CPU frequen
 - **Initial implication:** The machine has substantial unallocated capacity within its LVM volume group. CPU frequency is being managed dynamically by Linux, and the system was not reporting high thermal readings during this measurement.
 
 **Investigation method:** The following Linux commands were used to obtain these findings: `lsb_release -a`, `sudo vgs`, `sudo lvs`, the CPU frequency governor query under `/sys/devices/system/cpu/`, and the thermal-zone query under `/sys/class/thermal/`.
+
+
+## Controlled Benchmark Environment
+
+For the initial hardware performance baseline, **Alpine Linux (x86-64) in a minimal, diskless configuration** has been selected as the controlled benchmark environment.
+
+Alpine was selected because its minimal design allows us to minimise unnecessary RAM usage, background CPU activity and system services while still providing a conventional Linux environment with support for the Lenovo's x86-64 hardware. Its diskless mode also allows the temporary benchmark environment to run without installing it onto the Lenovo's internal eMMC.
+
+The purpose of this environment is to establish a practical hardware performance ceiling, not to assume that Alpine will be the final operating system for Project Apollo Lake. Alpine will remain a candidate for the final OS if it proves capable of supporting the complete AI stack.
+
+The benchmark environment should retain the ability to access the Intel HD Graphics 500 where practical, so that GPU acceleration can be investigated later.
