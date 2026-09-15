@@ -246,6 +246,15 @@ The initial TCPU reading was 35,000 millidegrees Celsius (35°C). The first repo
 
 The thermal trip point is treated as a safety threshold rather than a target operating temperature. Subsequent CPU stress experiments will monitor temperature continuously and will not intentionally target the thermal limit.
 
+### Integrated GPU Device Exposure
+
+The Alpine environment was inspected for Linux DRM graphics devices. /sys/class/drm exposed card1, connectors for the internal eDP-1 display and HDMI-A-1, and the render node renderD128. The corresponding /dev/dri directory exposed card1 and renderD128.
+
+The presence of renderD128 confirms that the integrated Intel GPU is exposed through a Linux DRM render node in the Alpine environment. This establishes GPU device availability but does not by itself demonstrate useful compute or AI acceleration.
+
+Further experiments will investigate the active GPU driver, available compute/graphics APIs and practical AI-runtime compatibility before determining whether the Intel HD Graphics 500 is useful for Apollo Lake inference.
+
+
 
 
 
