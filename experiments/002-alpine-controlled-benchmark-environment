@@ -256,6 +256,16 @@ Further experiments will investigate the active GPU driver, available compute/gr
 
 
 
+### Integrated GPU Driver Identification
+
+The DRM device was inspected to identify the active kernel driver. /sys/class/drm/card1/device/driver resolved to the Linux i915 PCI driver.
+
+The GPU reported PCI vendor ID 0x8086 (Intel) and device ID 0x5a85, corresponding to the Intel HD Graphics 500 integrated GPU used by the N3350 platform.
+
+This confirms that Alpine's kernel has detected the integrated GPU and attached the Intel i915 driver without requiring a separate driver installation. Combined with the previously observed DRM render node (/dev/dri/renderD128), this establishes functional kernel-level GPU device exposure.
+
+Higher-level graphics/compute API support and practical AI acceleration remain unverified and will be investigated separately.
+
 
 
 
