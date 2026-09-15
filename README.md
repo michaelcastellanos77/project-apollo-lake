@@ -22,6 +22,7 @@ The project will investigate how capable a useful bilingual conversational AI sy
 - Reasonable conversational response time
 - Maximum practical utilisation of the available hardware
 - Targeted benchmarking and optimisation based on project requirements
+- Minimum of 30 minutes continuous conversation
 
 ## Target Hardware
 
@@ -30,7 +31,7 @@ The project will investigate how capable a useful bilingual conversational AI sy
 - CPU: Intel Celeron N3350
 - RAM: 4 GB
 - Storage: 32 GB
-- Operating system: Ubuntu 26.04 LTS
+- Operating system: yet to be decided
 
 ## Project Philosophy
 
@@ -63,7 +64,7 @@ The final operating system and AI software stack have not yet been selected.
 - [V] Document Lenovo hardware
 - [V] Establish performance baseline
 - [ ] Investigate operating systems
-- [ ] Benchmark local LLMs
+- [ ] Investigate local LLMs
 - [ ] Select initial bilingual LLM
 - [ ] Design memory architecture
 - [ ] Implement short-term memory
