@@ -33,32 +33,39 @@ Year 2
 Mandarin:
 above HSK 5
 
-## Target Hardware
+## Device Hardware
 
 Device:
 Lenovo IdeaPad 120S-11IAP
 
-RAM:
-4 GB
+- 2-core / 2-thread Intel Celeron N3350
+- 4 GB physical RAM
+- 3.66 GiB RAM visible to Linux
+- Approximately 3.00 GiB available in the minimal Alpine environment during the RAM test
+- No active swap in the Alpine benchmark environment
+- AVX/AVX2 not reported
+- Intel HD Graphics 500 exposed through i915
+- Vulkan successfully enumerates the HD Graphics 500 through Mesa
+- Internal SanDisk iNAND eMMC visible as approximately 29.1 GiB
+- Raw sequential eMMC read: 161.2 MB/s
+- Sustained 2-core CPU test: approximately 99.9% utilisation per core
+- Maximum observed TCPU temperature during Experiment 003: 54°C
+- No obvious thermal-frequency collapse was observed during the short controlled test
 
-Storage:
-32 GB
 
-CPU:
-Intel Celeron N3350
-
+  
 ## Core Requirements
 
 1. The system must operate fully offline.
 2. The system must run exclusively on the Lenovo hardware.
 3. The assistant must communicate naturally in English and Mandarin Chinese.
-4. The assistant must support voice input.
-5. The assistant must support voice output.
+4. The assistant must support voice input and output.
+5. The assistant must be able to support a minimum of 30 minutes of working conversation
 6. The assistant must have persistent long-term memory.
 7. The assistant must have rolling short-term conversational memory.
 8. The system should achieve a reasonable conversational response time.
 9. Available hardware resources should be utilised as effectively as possible.
-10. The system should be thoroughly benchmarked and documented.
+10. The system should be benchmarked sufficiently to support hardware, software and architectural decisions, with important results documented and reproducible.
 
 ## Development Philosophy
 
@@ -80,11 +87,11 @@ The GitHub repository is the authoritative source of project state.
 
 ## Current Phase
 
-Phase 1 — Documenting and investigating Lenovo 120S-11IAP Hardware.
+Phase 2 — Choosing a suitable operating system.
 
 ## Current Objective
 
-Establish the project documentation and investigate the Lenovo hardware before selecting the final operating system or AI models.
+Establish a highly suitable operating system that balances functionality with low usage of system resouces.
 
 ## Important Historical Context
 
@@ -124,5 +131,9 @@ docs/CURRENT-STATE.md
 docs/DECISIONS.md
 docs/LEARNING-NOTES.md
 docs/hardware.md
+experiments/001-controlled-baseline-initial-state.md
+experiments/002-alpine-controlled-benchmark-environment.md
+experiments/003-cpu-sustained-load-thermal.md
+
 
 Never claim that a file is absent merely because it is not displayed on the repository root page. If the repository root appears inconsistent with the expected file structure, attempt to access the specific file directly. If direct access also fails, say that access failed rather than assuming the file does not exist.
