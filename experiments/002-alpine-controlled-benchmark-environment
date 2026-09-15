@@ -194,6 +194,19 @@ As a result, runtime configuration changes made during a session, including /etc
 After reboot, the repository configuration reverted to the ISO-provided /media/usb/apks repository. 
 The online Alpine v3.24 main and community repositories therefore need to be reconfigured at the start of a new session when additional packages are required.
 
+
+### Basic Hardware Inspection Tools
+
+After restoring access to the online Alpine v3.24 repositories via ethernet as opposed to wifi, the lscpu and lsblk packages were searched for and installed successfully.
+
+lscpu was used to verify that CPU, cache, instruction-set, virtualisation, NUMA and CPU vulnerability information could be inspected within the Alpine environment.
+
+lsblk was used to verify storage topology. The environment detected both the approximately 112.3 GiB removable benchmark boot device and the approximately 29.1 GiB internal SanDisk iNAND eMMC device. 
+No modifications were made to the internal eMMC.
+
+The commands produced more output than could be practically captured in a single photograph; 
+their successful execution and representative output were nevertheless verified directly on the Lenovo.
+
 ## Initial Observations
 
 Alpine successfully booted from the external removable media and reached the root shell.
