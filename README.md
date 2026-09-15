@@ -21,7 +21,7 @@ The project will investigate how capable a useful bilingual conversational AI sy
 - Rolling short-term conversational memory
 - Reasonable conversational response time
 - Maximum practical utilisation of the available hardware
-- Extensive benchmarking and optimisation
+- Targeted benchmarking and optimisation based on project requirements
 
 ## Target Hardware
 
@@ -42,16 +42,26 @@ AI assistants may be used to help with research, programming, debugging and lear
 
 ## Current Status
 
-**Phase 1 — Document Lenovo hardware**
+**Phase 1 — Hardware characterisation complete**
 
-The repository and documentation structure are being established.
+The Lenovo IdeaPad 120S-11IAP has been characterised using a controlled minimal Linux environment.
 
-No final AI model, operating system or software architecture has yet been selected.
+Key findings include:
+- 4 GB installed RAM, with approximately 3.66 GiB visible to Linux
+- Intel Celeron N3350, 2 cores / 2 threads
+- No AVX/AVX2 reported
+- Intel HD Graphics 500 exposed through `i915`
+- Vulkan successfully exposed through Mesa
+- Internal 32 GB SanDisk iNAND eMMC
+- Raw sequential eMMC read measured at 161.2 MB/s
+- Short sustained CPU testing reached approximately 54°C maximum CPU temperature without observed thermal collapse
+
+The final operating system and AI software stack have not yet been selected.
 
 ## Roadmap
 
-- [v] Document Lenovo hardware
-- [ ] Establish performance baseline
+- [V] Document Lenovo hardware
+- [V] Establish performance baseline
 - [ ] Investigate operating systems
 - [ ] Benchmark local LLMs
 - [ ] Select initial bilingual LLM
