@@ -187,6 +187,13 @@ The setup process demonstrated several practical differences between a minimal A
 
 These issues were resolved without modifying the Lenovo's internal Ubuntu installation.
 
+### Ephemeral Configuration
+
+The Alpine environment is currently booted from external removable media without a persistent Alpine installation/configuration.
+As a result, runtime configuration changes made during a session, including /etc/apk/repositories, do not persist after reboot.
+After reboot, the repository configuration reverted to the ISO-provided /media/usb/apks repository. 
+The online Alpine v3.24 main and community repositories therefore need to be reconfigured at the start of a new session when additional packages are required.
+
 ## Initial Observations
 
 Alpine successfully booted from the external removable media and reached the root shell.
