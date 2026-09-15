@@ -236,6 +236,23 @@ An initial five-second observation using mpstat 1 5 showed an average CPU utilis
 
 This observation represents an idle-state monitoring check rather than a performance benchmark.
 
+### CPU Thermal Monitoring
+
+The Alpine environment exposed five kernel thermal zones. Their reported types were INT3400 Thermal, SEN1, acpitz, iwlwifi_1 and TCPU.
+
+thermal_zone4 was identified as TCPU and selected as the primary CPU thermal measurement source for subsequent experiments.
+
+The initial TCPU reading was 35,000 millidegrees Celsius (35°C). The first reported thermal trip point was 105,050 millidegrees Celsius (105.05°C).
+
+The thermal trip point is treated as a safety threshold rather than a target operating temperature. Subsequent CPU stress experiments will monitor temperature continuously and will not intentionally target the thermal limit.
+
+
+
+
+
+
+
+
 
 
 
