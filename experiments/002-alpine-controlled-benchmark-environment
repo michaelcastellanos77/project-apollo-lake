@@ -218,6 +218,23 @@ A successful SSH login from the Chromebook to the Lenovo was verified. The SSH s
 The SSH connection currently depends on the Lenovo's local network connection. Networking will be disabled during actual offline benchmark measurements.
 
 
+### CPU Frequency Management Inspection
+
+The Alpine cpupower package (version 7.1.5-r0) was installed successfully. The N3350 was reported as using the intel_cpufreq driver, with hardware frequency limits of 800 MHz to 2.40 GHz.
+
+The available CPU frequency governors were ondemand, performance and schedutil. The active governor was schedutil, which dynamically selects a frequency within the available range according to CPU utilisation.
+
+At the time of inspection, the kernel asserted a CPU frequency of approximately 2.29 GHz. Direct hardware frequency reporting was unavailable through the queried interface, so this value should be treated as a kernel-asserted frequency rather than a direct physical clock measurement.
+
+Linux reported boost state support as supported and active. This should not be interpreted as Intel Turbo Boost; the N3350's Intel specifications do not list Intel Turbo Boost Technology.
+
+
+
+
+
+
+
+
 
 ## Initial Observations
 
