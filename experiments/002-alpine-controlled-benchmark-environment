@@ -207,6 +207,18 @@ No modifications were made to the internal eMMC.
 The commands produced more output than could be practically captured in a single photograph; 
 their successful execution and representative output were nevertheless verified directly on the Lenovo.
 
+### SSH Remote Control Setup
+
+OpenSSH server functionality was installed and configured in the Alpine environment to allow remote administration from the Chromebook. SSH host keys were generated and the SSH service was started successfully.
+
+The default Alpine SSH configuration permitted password authentication but prohibited root password login. For this temporary laboratory environment, root password login was explicitly enabled to allow remote administration. This configuration is considered temporary and is not intended as the security model for a final Apollo Lake installation.
+
+A successful SSH login from the Chromebook to the Lenovo was verified. The SSH session provides remote terminal access to the Lenovo; computation remains local to the Lenovo and is not offloaded to the Chromebook.
+
+The SSH connection currently depends on the Lenovo's local network connection. Networking will be disabled during actual offline benchmark measurements.
+
+
+
 ## Initial Observations
 
 Alpine successfully booted from the external removable media and reached the root shell.
