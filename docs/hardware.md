@@ -131,7 +131,7 @@ Further investigation of the system software, storage configuration, CPU frequen
 
 ## Controlled Benchmark Environment
 
-For the initial hardware performance baseline, **Alpine Linux (x86-64) in a minimal, diskless configuration** has been selected as the controlled benchmark environment.
+For the initial hardware performance baseline, **Alpine Linux (x86-64) in a minimal command-line configuration booted from external removable media** has been selected as the controlled benchmark environment.
 
 Alpine was selected because its minimal design allows us to minimise unnecessary RAM usage, background CPU activity and system services while still providing a conventional Linux environment with support for the Lenovo's x86-64 hardware. Its diskless mode also allows the temporary benchmark environment to run without installing it onto the Lenovo's internal eMMC.
 
