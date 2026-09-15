@@ -24,9 +24,168 @@ A minimal Alpine Linux environment should introduce less unnecessary RAM usage a
 - OS: Alpine Linux 3.24.1
 - Kernel: 6.18.35-0-lts
 - Boot medium: external 128 GB microSD card via USB card reader
-- Environment: minimal command-line Alpine system
+- Environment: minimal command-line Alpine system booted from external removable media
 - Power: AC power
 - Internal Ubuntu installation: left untouched
+
+## Environment Preparation and Troubleshooting Log
+
+### Alpine boot media
+
+An Alpine Linux 3.24.1 x86-64 standard ISO was selected for the controlled benchmark environment.
+
+The benchmark medium was prepared using a 128 GB microSD card connected through an SD adapter and USB card reader.
+
+The ISO was initially stored directly on the microSD card. Before writing the boot image, a separate copy of the ISO was placed on the Windows laptop so that the source image would not be located on the device being overwritten.
+
+Rufus 4.15 was used on a separate Windows laptop to write `alpine-standard-3.24.1-x86_64.iso` to the microSD card.
+
+Rufus initially warned that the ISO could not be used while it was located on the target device. The ISO was therefore copied to the Windows laptop's internal storage and selected from there.
+
+Rufus was configured with:
+
+- Device: 128 GB microSD card, reported by Windows as 120 GB
+- Image: `alpine-standard-3.24.1-x86_64.iso`
+- Image mode: ISO Image mode
+- Partition scheme: MBR
+- Target system: BIOS or UEFI
+- File system: Large FAT32
+
+The resulting card was labelled `ALPINE-STD` and contained Alpine boot files including `boot/`, `apks/` and `efi/`.
+
+### Chromebook preparation attempt
+
+The initial attempt to prepare the boot medium was made from a Chromebook using the Linux (Penguin) environment.
+
+ChromeOS could see the card as `Alpine Driv`, but the Linux container initially could not access the physical card.
+
+USB access for the card reader was then enabled through ChromeOS's Linux USB device control. The card became visible to Penguin as `/dev/sdb`, with `/dev/sdb1` containing the exFAT filesystem.
+
+An attempt to mount `/dev/sdb1` failed because the minimal Penguin environment did not have exFAT filesystem support:
+
+`unknown filesystem type 'exfat'`
+
+The ISO was subsequently copied to the Chromebook's local storage using ChromeOS, and the Windows laptop was used to perform the final boot-media creation instead.
+
+### First Alpine boot
+
+The Lenovo was powered off and the Alpine boot medium was connected through the USB card reader.
+
+The Lenovo Novo Button Menu was used to access the Boot Menu.
+
+Two entries appeared as:
+
+`USB HDD: Generic MassStorageClass`
+
+Selecting the first USB HDD entry booted the existing Ubuntu installation.
+
+Selecting the second USB HDD entry found the Alpine boot image but produced:
+
+`Secure Boot: Image failed to verify with security violation`
+
+Secure Boot was disabled in the Lenovo firmware while leaving the boot mode otherwise unchanged.
+
+The second USB HDD entry then successfully booted Alpine Linux.
+
+### Initial Alpine environment
+
+Alpine reached the `localhost login:` prompt and was entered using the `root` account.
+
+The Alpine keyboard layout was initially unset. This caused problems entering some keyboard characters, including the backslash character.
+
+`setup-keymap` was used to configure the keyboard layout as:
+
+- Layout: `gb`
+- Variant: `gb`
+
+After this change, the keyboard behaved correctly for the UK keyboard.
+
+### Initial system verification
+
+Alpine reported:
+
+- Alpine Linux: 3.24.1
+- Architecture: x86_64
+- Kernel: 6.18.35-0-lts
+
+The initial minimal environment did not include `lscpu` or `lsblk`.
+
+Initial memory state was:
+
+- Total: 3.7 GiB
+- Used: 124.5 MiB
+- Free: 3.2 GiB
+- Available: 3.3 GiB
+- Swap: 0
+
+Initial system activity was very low:
+
+- Uptime: approximately 7 minutes
+- Load average: 0.03 / 0.03 / 0.00
+
+### Network configuration
+
+The initial network interface check showed that `wlan0` existed but was down.
+
+`setup-interfaces` was used to configure the wireless interface.
+
+The interface was subsequently brought up manually with:
+
+`ip link set wlan0 up`
+
+`iw dev wlan0 link` confirmed that the Lenovo was associated with the Wi-Fi network.
+
+However, no IPv4 address or routing table was initially present.
+
+The lightweight Alpine DHCP client was then used:
+
+`udhcpc -i wlan0`
+
+A DHCP lease was successfully obtained.
+
+Connectivity was verified using:
+
+`ping -c 3 1.1.1.1`
+
+and:
+
+`ping -c 3 dl-cdn.alpinelinux.org`
+
+Both succeeded, confirming IP connectivity, routing and DNS resolution.
+
+### Package repository configuration
+
+The initial Alpine repository configuration contained only:
+
+`/media/usb/apks`
+
+This provided only 95 available packages.
+
+The repository configuration was replaced with the official Alpine v3.24 repositories:
+
+`https://dl-cdn.alpinelinux.org/alpine/v3.24/main`
+
+`https://dl-cdn.alpinelinux.org/alpine/v3.24/community`
+
+After running `apk update`, Alpine reported:
+
+`OK: 28648 distinct packages available`
+
+This confirmed that the full online Alpine package repositories were available.
+
+## Setup Lessons
+
+The setup process demonstrated several practical differences between a minimal Alpine environment and a general-purpose Linux installation:
+
+- Minimal Alpine does not necessarily include common diagnostic utilities by default.
+- Removable storage access from a Chromebook Linux container may require explicit USB passthrough.
+- The minimal environment initially lacked exFAT support.
+- Lenovo firmware Secure Boot prevented the Alpine boot image from starting until Secure Boot was disabled.
+- The keyboard layout must be explicitly configured for reliable command-line input.
+- Wi-Fi association and obtaining an IPv4 address through DHCP are separate steps.
+- The Alpine ISO repository bundled on the boot medium is much smaller than the full online Alpine repositories.
+
+These issues were resolved without modifying the Lenovo's internal Ubuntu installation.
 
 ## Initial Observations
 
