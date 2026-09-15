@@ -228,6 +228,16 @@ At the time of inspection, the kernel asserted a CPU frequency of approximately 
 
 Linux reported boost state support as supported and active. This should not be interpreted as Intel Turbo Boost; the N3350's Intel specifications do not list Intel Turbo Boost Technology.
 
+### CPU Utilisation Monitoring
+
+The Alpine sysstat package (version 12.7.8-r0) was installed successfully and mpstat was verified.
+
+An initial five-second observation using mpstat 1 5 showed an average CPU utilisation of 0.60% non-idle time and 99.40% idle time. CPU steal time remained at 0.00%, consistent with the Lenovo running the Alpine environment directly on physical hardware rather than as a guest virtual machine.
+
+This observation represents an idle-state monitoring check rather than a performance benchmark.
+
+
+
 
 
 
