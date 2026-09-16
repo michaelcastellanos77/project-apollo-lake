@@ -4,17 +4,38 @@
 **Phase:** Phase 1 — Hardware Performance Baseline
 **Status:** Initial-state snapshot complete
 
+## Main question
+
+What was the state of the Lenovo immediately before controlled investigation began?
+
 ## Purpose
 
 Record the state of the Lenovo IdeaPad 120S-11IAP immediately before controlled hardware performance benchmarking. These measurements are a starting-state snapshot, not yet the performance benchmark itself.
 
-## Power condition
 
-- Laptop was **plugged into AC power** during measurement.
-- Battery percentage was not recorded in this snapshot.
-- For subsequent benchmark runs, AC power should remain connected so that power-management behaviour is as consistent as possible.
+## Method
 
-## System snapshot
+The Lenovo IdeaPad 120S-11IAP was examined using its normal Ubuntu 26.04 LTS installation. The machine remained connected to AC power.
+For subsequent benchmark runs, AC power should remain connected so that power-management behaviour is as consistent as possible.
+The initial environment was intentionally left unchanged because the purpose of the experiment was to capture a starting-state snapshot, not to benchmark performance.
+
+The following commands were used:
+
+uname -a
+lscpu
+free -h
+lsblk
+uptime
+
+These were used to establish:
+
+OS and kernel
+CPU architecture, cores, threads, frequencies and instruction-set information
+memory capacity and current usage
+storage topology and partitioning
+system activity/load at the time of measurement
+
+## Results
 
 ### Operating system / kernel
 
@@ -59,24 +80,13 @@ Record the state of the Lenovo IdeaPad 120S-11IAP immediately before controlled 
 - Load average: 0.34 (1 min), 0.50 (5 min), 0.27 (15 min)
 - Two logical CPUs are online.
 
-## Commands used
 
-```text
-uname -a
-lscpu
-free -h
-lsblk
-uptime
-```
-
-## Initial interpretation
+## Conclusion
 
 The machine is lightly loaded but not completely idle. Linux has approximately 2.9 GiB of immediately available RAM and no swap is currently in use. The CPU is capable of dynamically changing frequency between 800 MHz and 2.40 GHz; the `55%` value reported by `lscpu` should not be treated as an exact current clock frequency.
 
 The storage device is the internal eMMC, and the system uses LVM. No system configuration was changed as part of this snapshot.
 
-These results establish the conditions from which the controlled benchmark will proceed. Actual CPU, memory, storage, thermal and graphics performance measurements have **not yet been performed**.
+These results establish the conditions from which the controlled benchmark will proceed. Actual CPU, memory, storage, thermal and graphics measurements are recorded in later experiments.
 
-## Next step
 
-Design and prepare the minimal controlled benchmarking environment before running performance tests.
