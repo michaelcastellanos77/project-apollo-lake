@@ -1,7 +1,7 @@
 # Experiment 002 — Alpine Controlled Benchmark Environment
 
-**Date:** 2026-09-14  
-**Status:** In progress
+**Date:** 2026-09-15  
+**Status:** Completed
 
 ## Question
 
