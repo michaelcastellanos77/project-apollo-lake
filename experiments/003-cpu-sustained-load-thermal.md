@@ -113,4 +113,41 @@ The exact sustained performance and thermal behaviour must be measured rather th
 
 ## Status
 
-Experiment design prepared. Benchmark execution has not yet begun.
+Status: Completed
+
+Controls:
+
+AC connected
+network disconnected
+flat hard surface
+vents unobstructed
+no desktop
+Alpine
+
+Phases:
+
+30 s idle
+60 s 1-core
+30 s recovery
+120 s 2-core
+30 s final idle
+
+Results:
+
+Phase	CPU0	CPU1	Avg Temp
+Idle	0.13%	0.33%	35.3°C
+1-core	100.00%	0.13%	44.6°C
+Recovery	0.27%	0.24%	37.9°C
+2-core	99.90%	99.89%	51.3°C
+Final idle	0.23%	0.20%	40.3°C
+
+1-core stress: 827.23 bogo ops/s
+2-core stress: 1578.80 bogo ops/s
+scaling: ~1.91×
+max observed TCPU: 54°C
+trip point: 105.05°C
+
+
+
+This was a short controlled thermal/performance test and does not establish 30-minute or indefinite endurance.
+The initial measurement parser used the wrong mpstat idle column and was corrected before the final run.
