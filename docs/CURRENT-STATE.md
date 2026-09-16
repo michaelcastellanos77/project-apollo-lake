@@ -1,15 +1,20 @@
 # Current Project State
 
-Last updated: 2026-09-15
+Last updated: 2026-09-16
 
 ## Current Phase
 
 **Phase 2 - Operating System selection**
 
-## Completed
+## Project Phase Progress
 
-- Phase 0
-- Phase 1
+- [x] Phase 0 — Project start and hardware identification
+- [x] Phase 1 — Hardware performance characterisation
+- [ ] Phase 2 — Operating system selection
+- [ ] Phase 3 — LLM selection and inference runtime
+- [ ] Phase 4 — Speech, memory and assistant pipeline
+- [ ] Phase 5 — Final optimisation
+- [ ] Phase 6 — Project completion and evaluation
 
 ## Hardware
 
