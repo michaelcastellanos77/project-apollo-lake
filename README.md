@@ -75,3 +75,77 @@ The final operating system and AI software stack have not yet been selected.
 - [ ] Optimise CPU, memory and thermals
 - [ ] Establish final performance benchmarks
 - [ ] Document final architecture
+
+
+
+## Project Phases
+
+The project is divided into distinct phases so that major engineering decisions are made sequentially and documented before progressing to the next stage.
+
+### Phase 0 — Project Start and Hardware Identification
+
+- [x] GitHub repository created
+- [x] Initial README created
+- [x] Shared AI context document created
+- [x] Gathered information on the specific hardware of the Lenovo IdeaPad 120S-11IAP
+- [x] Established the project documentation and experiment structure
+
+### Phase 1 — Hardware Performance Characterisation
+
+- [x] Establish a controlled benchmarking environment
+- [x] Characterise CPU capabilities
+- [x] Measure sustained CPU performance
+- [x] Characterise CPU thermal behaviour
+- [x] Characterise available RAM
+- [x] Characterise internal eMMC storage
+- [x] Characterise integrated GPU and available acceleration APIs
+- [x] Document results and limitations
+- [x] Establish a practical hardware performance baseline
+
+### Phase 2 — Operating System Selection
+
+- [ ] Define operating-system requirements
+- [ ] Compare suitable operating-system candidates
+- [ ] Evaluate compatibility with the measured hardware
+- [ ] Select the final operating system
+- [ ] Install and configure the selected operating system
+
+### Phase 3 — LLM Selection and Inference Runtime
+
+- [ ] Define requirements for the local language model
+- [ ] Identify suitable candidate models
+- [ ] Select an appropriate inference runtime
+- [ ] Benchmark candidate LLMs on the Lenovo
+- [ ] Evaluate bilingual English/Mandarin capability
+- [ ] Select the initial LLM and model configuration
+
+### Phase 4 — Speech, Memory and Assistant Pipeline
+
+- [ ] Select offline speech-recognition system
+- [ ] Select offline text-to-speech system
+- [ ] Design short-term conversational memory
+- [ ] Design persistent long-term memory
+- [ ] Implement memory system
+- [ ] Integrate speech recognition, LLM inference, memory and text-to-speech
+- [ ] Establish a functional bilingual voice-assistant pipeline
+
+### Phase 5 — Final Optimisation
+
+- [ ] Identify system bottlenecks
+- [ ] Optimise CPU and memory usage
+- [ ] Optimise model/runtime configuration
+- [ ] Optimise storage usage and access where practical
+- [ ] Optimise thermal behaviour where practical
+- [ ] Establish final system performance measurements
+- [ ] Demonstrate at least 30 minutes of continuous local operation
+
+### Phase 6 — Project Completion and Evaluation
+
+- [ ] Finalise the system architecture
+- [ ] Document the final implementation
+- [ ] Consolidate experiments and benchmark results
+- [ ] Evaluate the system against the original project requirements
+- [ ] Document limitations and lessons learned
+- [ ] Document potential future improvements
+- [ ] Complete final project review
+
