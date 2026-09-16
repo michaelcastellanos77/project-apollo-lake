@@ -38,8 +38,9 @@ The absence of AVX/AVX2 is potentially significant for local AI inference perfor
 
 ## Integrated GPU
 
-The Intel Celeron N3350 includes an **Intel HD Graphics 500** integrated GPU. The GPU is supported by Linux through the Intel `i915` driver and can provide graphics/compute capabilities through Linux graphics APIs including Vulkan and OpenCL.
-
+The Intel Celeron N3350 includes an **Intel HD Graphics 500** integrated GPU. The Intel HD Graphics 500 is exposed by Linux through the i915 driver and successfully enumerates through the Mesa Vulkan stack in the Alpine benchmark environment.
+Vulkan capability has therefore been established experimentally. OpenCL capability has not been separately verified.
+The usefulness of the iGPU for local AI inference remains unproven and will be evaluated only if required by the selected inference runtime.
 The iGPU is therefore technically available to Project Apollo Lake, but its usefulness for local AI inference is currently unknown. Whether the HD Graphics 500 can provide a meaningful performance improvement for LLM inference will be determined experimentally rather than assumed.
 
 **Conclusion:** iGPU support should be preserved where practical, but it is not currently a hard requirement for the final AI architecture or benchmark environment.
@@ -61,6 +62,13 @@ At the time of the initial hardware investigation:
 - Available: 2.9 GiB
 - Swap: 2.5 GiB
 - Swap used: 0 B
+
+During experiment 005 of phase 1:
+
+Installed RAM: 4 GB
+Kernel-visible RAM: 3,841,504 kB (~3.66 GiB)
+Available RAM during Experiment 005: ~3.00 GiB
+Swap in Alpine benchmark environment: 0
 
 ## Storage
 
@@ -122,8 +130,26 @@ Further investigation of the system software, storage configuration, CPU frequen
 
 - **Operating system:** The laptop is running Ubuntu 26.04 LTS (codename `resolute`).
 - **Storage management:** The internal 32 GB eMMC storage uses LVM. The LVM volume group contains approximately 26.1 GB, with approximately 13.0 GB currently allocated to the root logical volume and approximately 13.0 GB remaining unallocated within the volume group.
+- Raw sequential read performance:
+161.2 MB/s
+
+Measurement:
+256 MiB read directly from `/dev/mmcblk0` using direct I/O in the Alpine benchmark environment.
+
+A short filesystem-level Ubuntu test produced much higher apparent throughput and was not treated as representative of physical eMMC performance.
 - **CPU frequency management:** The CPU currently uses the Linux `schedutil` frequency governor, which dynamically adjusts CPU frequency according to system workload.
-- **Thermal state:** At the time of measurement, the reported Linux thermal-zone readings ranged from approximately 20°C to 38°C. These readings represent multiple thermal zones and should not yet be assumed to correspond directly to CPU temperature.
+- **Thermal state:** At the time of measurement (phase 0), the reported Ubuntu Linux thermal-zone readings ranged from approximately 20°C to 38°C.
+
+In phase 1 The TCPU thermal zone was identified as the primary CPU temperature source.
+
+The reported thermal trip point was 105.05°C.
+
+During Experiment 003:
+- 1-core sustained load average temperature: 44.6°C
+- 2-core sustained load average temperature: 51.3°C
+- Maximum observed temperature: 54.0°C
+
+No obvious thermal-frequency collapse was observed during the short controlled test.
 - **Initial implication:** The machine has substantial unallocated capacity within its LVM volume group. CPU frequency is being managed dynamically by Linux, and the system was not reporting high thermal readings during this measurement.
 
 **Investigation method:** The following Linux commands were used to obtain these findings: `lsb_release -a`, `sudo vgs`, `sudo lvs`, the CPU frequency governor query under `/sys/devices/system/cpu/`, and the thermal-zone query under `/sys/class/thermal/`.
@@ -133,7 +159,7 @@ Further investigation of the system software, storage configuration, CPU frequen
 
 For the initial hardware performance baseline, **Alpine Linux (x86-64) in a minimal command-line configuration booted from external removable media** has been selected as the controlled benchmark environment.
 
-Alpine was selected because its minimal design allows us to minimise unnecessary RAM usage, background CPU activity and system services while still providing a conventional Linux environment with support for the Lenovo's x86-64 hardware. Its diskless mode also allows the temporary benchmark environment to run without installing it onto the Lenovo's internal eMMC.
+Alpine was selected because its minimal design allows us to minimise unnecessary RAM usage, background CPU activity and system services while still providing a conventional Linux environment with support for the Lenovo's x86-64 hardware. The benchmark environment was booted from external removable media without installing Alpine onto the Lenovo's internal eMMC.
 
 The purpose of this environment is to establish a practical hardware performance ceiling, not to assume that Alpine will be the final operating system for Project Apollo Lake. Alpine will remain a candidate for the final OS if it proves capable of supporting the complete AI stack.
 
