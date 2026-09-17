@@ -6,7 +6,7 @@ Last updated: 2026-09-17
 
 **Phase 2 — LLM research and selection**
 
-Alpine Linux has now been selected as the lightweight reference operating system for Phase 2 and subsequent development. The Lenovo will be reformatted and Alpine installed to the internal eMMC before continuing with LLM testing.
+Alpine Linux is now installed persistently on the Lenovo's internal eMMC. SSH access from the Chromebook has been verified, so remaining configuration can be performed remotely.
 
 The operating-system question is temporarily considered settled. It will only be revisited if a concrete compatibility or engineering requirement shows that Alpine is unsuitable.
 
@@ -40,9 +40,7 @@ Phase 1 established the practical hardware baseline. Further hardware benchmarki
 
 **Reference operating system:** Alpine Linux x86-64
 
-Alpine has been selected as the lightweight reference environment because it provides a very small base system while still providing the software ecosystem required for Apollo Lake. The project has already successfully booted Alpine on this exact Lenovo and verified key capabilities including SSH, CPU monitoring/frequency control, i915 graphics exposure, Mesa Vulkan support and low baseline RAM usage.
-
-The Lenovo will now be reformatted before Alpine is installed to the internal eMMC. The new environment will be a persistent installation rather than the temporary removable-media environment used during Phase 1.
+Alpine is now installed persistently on the Lenovo's internal eMMC using the `sys` installation mode. The previous Ubuntu installation was erased. Wired Ethernet and OpenSSH have been configured, and SSH access from the Chromebook has been successfully verified.
 
 The operating system will be kept deliberately minimal. Components will be added only as required for Apollo Lake, including SSH, English/Chinese text input, LLM inference, speech recognition and text-to-speech.
 
