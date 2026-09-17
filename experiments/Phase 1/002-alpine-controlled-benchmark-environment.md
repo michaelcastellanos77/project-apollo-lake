@@ -3,7 +3,7 @@
 **Date:** 2026-09-15  
 **Status:** Completed
 
-## Question
+## Main Question
 
 Can Alpine Linux provide a minimal, controlled environment for establishing the practical hardware performance ceiling of the Lenovo IdeaPad 120S-11IAP?
 
@@ -28,7 +28,85 @@ A minimal Alpine Linux environment should introduce less unnecessary RAM usage a
 - Power: AC power
 - Internal Ubuntu installation: left untouched
 
-## Environment Preparation and Troubleshooting Log
+## Method Summary
+
+A 128 GB microSD card connected through a USB card reader was chosen as the external benchmark medium.
+
+An Alpine Linux 3.24.1 x86-64 standard ISO was selected.
+
+Initial preparation was attempted using the Chromebook's Linux environment. The card was visible through ChromeOS, but access from the Linux container required USB passthrough. After passthrough, the device appeared inside the container.
+
+An attempt to mount the existing exFAT filesystem failed because the Linux environment lacked exFAT support. Rather than expanding the Chromebook environment unnecessarily, the ISO was moved onto Windows storage and the boot media was created using Rufus 4.15.
+
+Rufus was configured for:
+
+Alpine 3.24.1 x86-64 ISO
+ISO image mode
+MBR
+BIOS or UEFI
+Large FAT32
+
+The Lenovo was then booted through its firmware boot menu.
+
+The first relevant USB boot entry launched the existing Ubuntu system; the second identified the Alpine boot image. Alpine initially failed Secure Boot verification, so Secure Boot was disabled in Lenovo firmware. Alpine then booted successfully.
+
+The initial Alpine environment was extremely minimal and lacked common diagnostic commands such as lscpu and lsblk.
+
+The keyboard layout was initially unsuitable for reliable command-line work, so setup-keymap was used to configure the UK keyboard layout.
+
+Networking was then established so additional Alpine packages could be installed. Ethernet proved more reliable for setup than Wi-Fi. The Ethernet interface was brought up manually and given a DHCP lease using udhcpc.
+
+IP connectivity and DNS resolution were verified using:
+
+ping -c 3 1.1.1.1
+ping -c 3 dl-cdn.alpinelinux.org
+
+The default repository configuration initially pointed at the packages bundled with the boot media. This was replaced with the official Alpine v3.24 main and community repositories, followed by apk update.
+
+The required diagnostic/measurement packages were then deliberately installed rather than assuming they were present. These included:
+
+lscpu / related util-linux support
+lsblk
+cpupower
+sysstat
+stress-ng
+
+SSH server functionality was then enabled in Alpine so the Lenovo could be administered remotely from the Chromebook. Root password SSH access was temporarily enabled for this laboratory environment.
+
+The internal storage topology was checked with lsblk, confirming separate removable media and internal eMMC devices.
+
+CPU frequency behaviour was investigated using cpupower frequency-info, cpupower monitor, and CPU frequency sysfs files.
+
+CPU utilisation was investigated using mpstat.
+
+Thermal zones under /sys/class/thermal/ were inspected. TCPU was identified as the most appropriate CPU-temperature source, and its thermal trip point was recorded.
+
+The GPU was investigated through /sys/class/drm and /dev/dri. The Intel i915 driver was identified, along with the Intel vendor/device IDs.
+
+Throughout setup, the Alpine environment remained external to the internal Ubuntu installation. It was used as a temporary minimal benchmark environment rather than selected as the final project OS.
+
+
+
+
+
+## Roadblocks
+
+The major roadblocks were:
+
+Chromebook Linux container could not initially access the physical USB card
+exFAT support was missing
+Alpine boot was blocked by Secure Boot
+common Linux utilities were absent from the minimal Alpine installation
+keyboard layout was initially unsuitable
+Wi-Fi configuration did not persist across reboots
+package repositories reverted to the boot-media repository after reboot
+SSH root login required temporary configuration changes
+
+Each problem was resolved without modifying the Ubuntu installation.
+
+## Conclusion
+
+Alpine successfully provided a minimal controlled environment suitable for the targeted hardware experiments.
 
 ### Alpine boot media
 
