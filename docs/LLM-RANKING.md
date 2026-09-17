@@ -7,7 +7,7 @@
 
 This is a **provisional engineering ranking**, based only on models actually evaluated on the Apollo Lake target hardware. It is not a ranking of models in general.
 
-The current selection sequence is:
+The selection sequence is:
 
 1. Satisfy the five core linguistic/functional requirements:
    - coherent English
@@ -29,23 +29,43 @@ A model that has not been tested is **not ranked below an evaluated model merely
 | **1** | **Qwen2.5-1.5B-Instruct Q4_K_M** | 1.5B | **Current leader** | **2.3–2.5 t/s Vulkan** | Strong English/Chinese; usable translation; mixed-language recovery after clarification; Vulkan full offload works |
 | **2** | **Qwen2.5-0.5B-Instruct Q4_K_M** | 0.5B | Evaluated baseline | **2.1–2.6 t/s CPU** | Runs reliably; weaker translation naturalness and failed tested mixed-language interaction |
 
+**Important:** the ranking is provisional. Qwen2.5-1.5B is the current leader because it is the strongest candidate demonstrated so far, but it has **not** met the later performance gate of 3.5 t/s generation or the 30 t/s prompt-processing target.
+
+## Performance gate
+
+Once a model passes the five linguistic/functional requirements, Apollo Lake applies the following performance target:
+
+- **Generation:** ≥ 3.5 t/s
+- **Prompt processing:** ≥ 30 t/s
+
+A candidate should not be considered to meet these targets from a single unusually fast prompt. Prompt throughput must be measured using controlled prompts of known length/content, and generation should be confirmed across representative bilingual/conversational prompts.
+
+The current leader therefore remains a **provisional leader**, not a final selection.
+
 ## Pending evaluation
 
 The following candidates are deliberately not assigned numerical ranks until they have gone through the same Apollo Lake tests:
 
-- Qwen3-0.6B
+### Next priority
+
+- **Qwen3-0.6B**
+
+### Other lighter / ~1B candidates
+
 - Hunyuan-0.5B-Instruct
 - Chinese-Tiny-LLM (CT-LLM 0.9B)
-- MiniCPM5 / MiniCPM5-1B
+- MiniCPM5-1B
 - ZGCM-1 1.1B
+
+### ~1.5–1.8B candidates
+
 - Qwen2.5-Coder-1.5B
 - DeepSeek-R1-Distill-Qwen-1.5B
 - OpenCoder ~1.5B
-- Qwen2.5-1.5B-Instruct — evaluated/current leader
 - RWKV-6 ~1.6B
 - InternLM2.5-1.8B-Chat
 
-Additional models may be added if research identifies a candidate with a strong reason to test.
+Additional 2B+ candidates may be added if the lighter candidates fail the linguistic/performance gates and a larger model has a strong technical justification.
 
 ## Qwen2.5-1.5B current position
 
