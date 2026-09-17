@@ -48,10 +48,12 @@ The OS is not currently an optimisation target. It will only be revisited if a c
 
 ## AI System
 
-**Current leading LLM:** Qwen2.5-1.5B-Instruct Q4_K_M  
+**Current provisional LLM leader:** Qwen3-0.6B Q4_K_M  
 **Final selection:** Not yet made
 
-Qwen2.5-0.5B-Instruct remains the low-resource baseline. Qwen2.5-1.5B-Instruct is currently the leading evaluated candidate after completing CPU and Vulkan linguistic/performance testing.
+Qwen3-0.6B is now the current provisional leader after initial CPU and Vulkan evaluation. It has a much smaller model footprint than Qwen2.5-1.5B and observed generation of approximately 3.6–4.0 t/s across the individual substantive tests. It has not passed every linguistic requirement and has not met the 30 t/s prompt-processing target, so this promotion is provisional and can be changed as more candidates are evaluated.
+
+Qwen2.5-1.5B remains an important comparison/fallback candidate because it demonstrated stronger tested mixed-language recovery and substantial Vulkan acceleration, despite lower throughput.
 
 Speech recognition:
 Not yet selected
@@ -73,14 +75,7 @@ After a model meets the five core linguistic/functional requirements, the next p
 
 These are project targets rather than claims about what the hardware must achieve. Generation tokens/s is the primary conversational metric; prompt tokens/s will be measured using controlled prompts because it depends strongly on input length/content.
 
-The search strategy is now deliberately staged rather than simply moving to ever-larger models:
-
-1. Test a lighter modern candidate capable of potentially clearing the performance gate — **Qwen3-0.6B is next**.
-2. Test other ~0.5–1.1B candidates such as Hunyuan-0.5B-Instruct, CT-LLM 0.9B, MiniCPM5-1B and ZGCM-1 1.1B.
-3. Compare the ~1.5–1.8B candidates against the current Qwen2.5-1.5B leader.
-4. Only then consider selected 2B+ candidates if no smaller model satisfies the linguistic and performance requirements, or if a larger model offers a clearly justified capability needed by Apollo Lake.
-
-This keeps the project focused on finding the **smallest practical satisfactory model**, rather than maximising parameter count.
+The search strategy is deliberately staged rather than simply moving to ever-larger models. Qwen3-0.6B has now been evaluated as the lightweight candidate and promoted provisionally; other candidates will still be tested before final selection.
 
 ## LLM Evaluation Methodology
 
@@ -105,21 +100,42 @@ For each candidate, linguistic suitability is assessed before performance optimi
 
 ### Current provisional ranking
 
-1. **Qwen2.5-1.5B-Instruct Q4_K_M — current leader**
-2. **Qwen2.5-0.5B-Instruct Q4_K_M — low-resource baseline**
+1. **Qwen3-0.6B Q4_K_M — current provisional leader**
+2. **Qwen2.5-1.5B-Instruct Q4_K_M — evaluated comparison/fallback**
+3. **Qwen2.5-0.5B-Instruct Q4_K_M — low-resource baseline**
 
 The ranking is empirical and provisional. It applies only to candidates actually evaluated on Apollo Lake. See `docs/LLM-RANKING.md` for the current ranking and pending candidate list.
 
+### Qwen3-0.6B evaluation
+
+See `experiments/010-qwen3-0.6b-llm-evaluation.md` for the complete experiment record.
+
+Key results:
+
+- Q4_K_M model file: **461.8 MiB**.
+- Controlled inference used 2 CPU threads, 2048-token context, swap disabled and `--reasoning off`.
+- English: **pass**, 3.8 t/s generation.
+- Simplified Chinese: **pass**, 3.8 t/s generation.
+- English→Chinese: **pass**, 4.0 t/s generation.
+- Chinese→English: **partial pass**, 3.8 t/s generation; tense/naturalness issues remained.
+- Mixed English/Chinese conversation: **fail** on the tested requirement; the model translated/rephrased instead of answering, including after clarification.
+- Tested Chinese historical-summary task: **fail** for factual reliability; one uncontrolled/default-context attempt crashed and the controlled 2048-context repeat produced major factual/chronological errors.
+- CPU generation across substantive tests: **3.6–4.0 t/s**.
+- Observed prompt processing: approximately **8.5–12.0 t/s** on CPU, below the later 30 t/s target.
+- Full Vulkan offload (`-ngl 100`) worked, with generation also approximately **3.6–4.0 t/s**.
+- Vulkan `ngl` sweep: 1 layer was slower; 25 layers remained slightly slower; 50–100 layers reached approximately CPU-level generation throughput.
+- No large generation-speed advantage from Vulkan was observed for this small model.
+- Default model context attempted an approximately **4.38 GiB** allocation, which exceeded available physical RAM.
+
 ### Evaluated heavier candidate
 
-**Qwen2.5-1.5B-Instruct Q4_K_M** has completed the current linguistic and acceleration evaluation. It is currently the leading candidate but does not yet meet the later performance target of 3.5 t/s generation based on observed Vulkan throughput.
+**Qwen2.5-1.5B-Instruct Q4_K_M** has completed the current linguistic and acceleration evaluation. It remains an important comparison candidate.
+
+Its observed Vulkan generation was approximately **2.3–2.5 t/s**, substantially below the Qwen3-0.6B observed range, while its mixed-language test recovered successfully after clarification.
 
 ### Pending candidates
 
 The next candidates under consideration include:
-
-**Next:**
-- Qwen3-0.6B
 
 **Lighter / ~1B:**
 - Hunyuan-0.5B-Instruct
@@ -215,22 +231,11 @@ Observed generation:
 
 The observed Vulkan generation range is therefore approximately **2.3–2.5 t/s**, compared with approximately **1.2–1.5 t/s** on CPU for the same model family and tests.
 
-### Linguistic assessment
-
-- English generation: **pass**
-- Simplified Chinese generation: **pass**
-- English→Chinese: **partial pass** — understandable translation, but source repetition and some unnatural phrasing
-- Chinese→English: **partial/pass** — generally natural, with a minor omission (`this afternoon`) in the tested prompt
-- Mixed-language conversation: **partial pass** — initially translated instead of answering, but successfully recovered after explicit clarification
-- Chinese factual-reliability test: **fail on the tested Three Kingdoms summary prompt** because of major factual/chronological errors despite fluent-looking Chinese
-
-### Current interpretation
-
-Qwen2.5-1.5B is currently the best **empirically evaluated** candidate in Apollo Lake, but it has not yet met the later performance target of 3.5 t/s generation. Its Vulkan acceleration is nonetheless a major positive result: the HD 500 provides useful inference acceleration for this model in the current llama.cpp configuration.
-
 ## GPU Acceleration
 
 The Intel HD Graphics 500 is exposed through Linux `i915`, and Vulkan is available through Mesa on Alpine. Qwen2.5-1.5B demonstrated successful extensive Vulkan offload and approximately 2.3–2.5 t/s generation.
+
+Qwen3-0.6B also runs successfully with full Vulkan offload (`-ngl 100`), but for this much smaller model the observed generation speed is approximately the same as CPU-only inference. The `ngl` sweep showed that very small partial offload can be slower, while larger offload reaches approximately CPU-level throughput.
 
 Future candidates will be tested for Vulkan acceleration where compatible and useful.
 
@@ -241,17 +246,21 @@ After linguistic suitability is established, the current project target is:
 - **Generation:** ≥ 3.5 t/s
 - **Prompt processing:** ≥ 30 t/s
 
+Qwen3-0.6B has exceeded the 3.5 t/s generation target in the individual tests performed so far, but it has not satisfied the five linguistic requirements and its prompt-processing measurements remain below 30 t/s. The generation result also requires confirmation across controlled repeated/sustained workloads before being treated as a robust benchmark result.
+
 A candidate should not be considered to meet these targets from a single unusually fast prompt. Prompt throughput in particular must be measured with controlled prompts of known length. Generation should also be confirmed across representative bilingual/conversational prompts.
 
 ## Open Questions
 
-- Can Qwen3-0.6B satisfy the five linguistic requirements while exceeding the 3.5 t/s generation and 30 t/s prompt targets?
+- Can Qwen3-0.6B's mixed-language instruction following be improved through prompt/template configuration without sacrificing speed?
+- Can Qwen3-0.6B provide stable long-form inference without segmentation faults under a controlled context?
+- Can its generation speed remain above 3.5 t/s over sustained operation?
+- Can any candidate provide stronger bilingual conversation and factual reliability while retaining a similar performance/resource envelope?
 - Does MiniCPM5-1B provide a better bilingual quality/speed trade-off?
 - Can a heavier 1.8B-class model such as InternLM2.5-1.8B-Chat provide a meaningful quality improvement while remaining practical on the N3350/HD 500?
 - Do any ~1.5B candidates materially improve factual reliability or instruction following while remaining within the performance/resource envelope?
 - Which candidate has the best RAM headroom for ASR, TTS and memory components?
 - What quantisation provides the best quality/resource trade-off for the eventual selected model?
-- Can any candidate sustain the target throughput for longer sessions rather than only short interactive tests?
 - Which ASR system is practical?
 - Which TTS system is practical?
 - How much resource headroom is required for the complete voice pipeline?
