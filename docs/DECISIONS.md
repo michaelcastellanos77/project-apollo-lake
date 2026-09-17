@@ -102,19 +102,11 @@ Endurance testing will therefore be performed after the integrated system exists
 
 **Decision:**
 
-LLM selection will precede final operating-system and supporting AI-stack selection.
-
-The project will initially test small bilingual LLMs on the existing Ubuntu 26.04 environment. The goal is to find an LLM that provides satisfactory English and Simplified Chinese conversational capability, rather than to maximise model size.
-
-If no suitable LLM can provide satisfactory results on Ubuntu 26.04, the project will investigate a lighter operating system and continue testing progressively larger models.
-
-If a suitable LLM is found on Ubuntu 26.04, a lighter operating system may still be evaluated later if the additional resources would materially improve the speech, memory or other supporting components.
+LLM selection will precede final supporting AI-stack selection. The project will find a satisfactory LLM before committing to the rest of the assistant architecture.
 
 **Reason:**
 
-The LLM is the central component of the assistant. Building the rest of the system around an assumed operating-system environment before establishing that a suitable LLM can run would risk optimising the wrong constraint.
-
-The project therefore prioritises finding a satisfactory LLM first, while retaining operating-system optimisation as a later option.
+The LLM is the central component of the assistant. The rest of the system should be designed around the actual resource requirements of the selected model rather than an assumed model or software environment.
 
 ---
 
@@ -133,3 +125,43 @@ The project will not automatically select the largest model that can technically
 A larger model is only useful if its additional capability justifies its additional resource requirements. Apollo Lake must also run speech recognition, text-to-speech and memory systems within the same 4 GB hardware constraint.
 
 LLM testing will therefore proceed from very small models upward until a satisfactory model is found.
+
+---
+
+## Decision 009 — Alpine Linux as the Lightweight Reference Environment
+
+**Date:** 2026-09-17
+
+**Decision:**
+
+Alpine Linux x86-64 will be used as the lightweight reference operating system for Phase 2 and subsequent Apollo Lake development.
+
+The Lenovo will be reformatted and Alpine installed persistently to the internal eMMC. The Alpine environment will be kept deliberately minimal, with software added only when required by the project.
+
+The operating-system question is temporarily considered settled. It will only be revisited if a concrete compatibility or engineering requirement demonstrates that Alpine is unsuitable.
+
+**Reason:**
+
+Alpine provides a very small base system while retaining the Linux software ecosystem required for Apollo Lake. The project has already successfully booted Alpine on the target Lenovo and experimentally verified key capabilities including low baseline RAM usage, SSH, CPU monitoring/frequency control, i915 graphics exposure and Mesa Vulkan support.
+
+Continuing with Alpine avoids spending project time comparing many lightweight distributions while still providing a realistic environment in which to test the actual LLM and complete assistant workload.
+
+The aim is therefore not to identify the theoretically smallest operating system, but to establish a practical lightweight environment and then focus engineering effort on the LLM and complete assistant.
+
+---
+
+## Decision 010 — Test iGPU Acceleration Rather Than Assume It
+
+**Date:** 2026-09-17
+
+**Decision:**
+
+The Intel HD Graphics 500's available Vulkan capability will be tested as a possible LLM acceleration path, but GPU acceleration will not be assumed to improve performance.
+
+Where practical, equivalent CPU-only and Vulkan-offloaded inference workloads will be compared using the same model, quantisation and relevant runtime settings.
+
+**Reason:**
+
+Phase 1 established that the N3350's Intel HD Graphics 500 is exposed through i915 and that Vulkan is available through Mesa. This establishes technical capability, not useful LLM performance.
+
+Because the iGPU uses shared system memory and is itself highly constrained, actual measurements are required to determine whether offloading work to it is beneficial.
