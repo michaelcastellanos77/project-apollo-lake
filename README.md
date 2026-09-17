@@ -4,7 +4,7 @@ A fully offline bilingual English/Mandarin voice assistant running locally on a 
 
 ## Project Vision
 
-The goal of Project Apollo Lake is to establish a fully independent local ai voice assistant on heavily constrained hardware. This project aims to teach me about how llms work and how llm suitability and performance varies based on hardware used.
+The goal of Project Apollo Lake is to establish a fully independent local AI voice assistant on heavily constrained hardware. This project aims to teach me about how LLMs work and how LLM suitability and performance varies based on hardware used.
 
 The initial system will run entirely offline on a Lenovo IdeaPad 120S-11IAP and will not depend on cloud AI services during operation.
 
@@ -31,7 +31,8 @@ The project will investigate how capable a useful bilingual conversational AI sy
 - CPU: Intel Celeron N3350
 - RAM: 4 GB
 - Storage: 32 GB
-- Operating system: yet to be decided
+- Current test operating system: Ubuntu 26.04 LTS
+- Final operating system: yet to be decided
 
 ## Project Philosophy
 
@@ -40,6 +41,8 @@ This project is being developed as a learning and engineering project rather tha
 Important decisions, experiments, failures and lessons will be documented throughout development.
 
 AI assistants may be used to help with research, programming, debugging and learning, but the project documentation will remain the authoritative record of the system.
+
+The project prioritises finding a satisfactory practical LLM rather than maximising model size. Software choices will be made around the requirements of the complete assistant, not around the largest model the hardware can technically run.
 
 ## Current Status
 
@@ -57,15 +60,22 @@ Key findings include:
 - Raw sequential eMMC read measured at 161.2 MB/s
 - Short sustained CPU testing reached approximately 54°C maximum CPU temperature without observed thermal collapse
 
-The final operating system and AI software stack have not yet been selected.
+Phase 1 is complete. Further benchmarking will be targeted only at measurements required for later engineering decisions.
+
+The current test environment is Ubuntu 26.04 LTS. The final operating system has deliberately not yet been selected.
+
+**Current focus: LLM research and selection.** Small bilingual LLMs are being tested from the bottom up to find the smallest model that provides satisfactory English, Simplified Chinese and mixed-language conversational capability.
+
+If Ubuntu prevents a suitable model from running satisfactorily, a lighter operating system will be investigated and LLM testing will continue. Even if a suitable model is found on Ubuntu, a lighter operating system may later be evaluated to free resources for speech, memory and other components.
 
 ## Roadmap
 
-- [V] Document Lenovo hardware
-- [V] Establish performance baseline
-- [ ] Investigate operating systems
-- [ ] Investigate local LLMs
-- [ ] Select initial bilingual LLM
+- [x] Document Lenovo hardware
+- [x] Establish targeted hardware performance baseline
+- [ ] Research and test small bilingual LLMs
+- [ ] Select initial LLM and model configuration
+- [ ] Select/configure inference runtime
+- [ ] Determine final operating system based on LLM and complete-system requirements
 - [ ] Design memory architecture
 - [ ] Implement short-term memory
 - [ ] Implement persistent long-term memory
@@ -73,10 +83,9 @@ The final operating system and AI software stack have not yet been selected.
 - [ ] Implement offline text-to-speech
 - [ ] Integrate complete voice pipeline
 - [ ] Optimise CPU, memory and thermals
-- [ ] Establish final performance benchmarks
-- [ ] Document final architecture
-
-
+- [ ] Establish final performance measurements
+- [ ] Demonstrate at least 30 minutes of continuous local operation
+- [ ] Document final architecture and evaluation
 
 ## Project Phases
 
@@ -102,22 +111,28 @@ The project is divided into distinct phases so that major engineering decisions 
 - [x] Document results and limitations
 - [x] Establish a practical hardware performance baseline
 
-### Phase 2 — Operating System Selection
+Further hardware benchmarking will only be performed where it supports a specific later engineering decision.
 
-- [ ] Define operating-system requirements
-- [ ] Compare suitable operating-system candidates
-- [ ] Evaluate compatibility with the measured hardware
-- [ ] Select the final operating system
-- [ ] Install and configure the selected operating system
+### Phase 2 — LLM Research and Selection
 
-### Phase 3 — LLM Selection and Inference Runtime
+- [ ] Define practical LLM requirements
+- [ ] Research extremely small bilingual models
+- [ ] Verify English generation capability
+- [ ] Verify Simplified Chinese generation capability
+- [ ] Verify English ↔ Chinese interaction
+- [ ] Verify mixed English/Chinese conversation
+- [ ] Test candidate models on Ubuntu 26.04
+- [ ] Measure practical RAM usage and generation performance
+- [ ] Test relevant quantisation levels where useful
+- [ ] Select the smallest practical LLM that meets project requirements
 
-- [ ] Define requirements for the local language model
-- [ ] Identify suitable candidate models
-- [ ] Select an appropriate inference runtime
-- [ ] Benchmark candidate LLMs on the Lenovo
-- [ ] Evaluate bilingual English/Mandarin capability
-- [ ] Select the initial LLM and model configuration
+### Phase 3 — Operating System and Inference Runtime
+
+- [ ] Determine operating-system requirements from the selected LLM and complete assistant architecture
+- [ ] Continue with Ubuntu if it provides sufficient resources
+- [ ] Investigate lighter operating systems if additional resources are required
+- [ ] Select/configure the inference runtime
+- [ ] Verify reliable fully offline LLM operation
 
 ### Phase 4 — Speech, Memory and Assistant Pipeline
 
@@ -148,4 +163,3 @@ The project is divided into distinct phases so that major engineering decisions 
 - [ ] Document limitations and lessons learned
 - [ ] Document potential future improvements
 - [ ] Complete final project review
-
