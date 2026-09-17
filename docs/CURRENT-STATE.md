@@ -6,7 +6,9 @@ Last updated: 2026-09-17
 
 **Phase 2 — LLM research and selection**
 
-The project is currently staying on Ubuntu 26.04 while small bilingual LLMs are investigated. The final operating system has deliberately not been selected yet.
+Alpine Linux has now been selected as the lightweight reference operating system for Phase 2 and subsequent development. The Lenovo will be reformatted and Alpine installed to the internal eMMC before continuing with LLM testing.
+
+The operating-system question is temporarily considered settled. It will only be revisited if a concrete compatibility or engineering requirement shows that Alpine is unsuitable.
 
 ## Project Phase Progress
 
@@ -36,11 +38,15 @@ Phase 1 established the practical hardware baseline. Further hardware benchmarki
 
 ## Operating System
 
-**Current test environment:** Ubuntu 26.04 LTS
+**Reference operating system:** Alpine Linux x86-64
 
-The final operating system has not been selected.
+Alpine has been selected as the lightweight reference environment because it provides a very small base system while still providing the software ecosystem required for Apollo Lake. The project has already successfully booted Alpine on this exact Lenovo and verified key capabilities including SSH, CPU monitoring/frequency control, i915 graphics exposure, Mesa Vulkan support and low baseline RAM usage.
 
-The current strategy is to test LLMs on Ubuntu first. If Ubuntu prevents a suitable LLM from running satisfactorily, a lighter operating system will be investigated. Even if a suitable LLM is found on Ubuntu, a lighter operating system may later be evaluated to free resources for speech recognition, text-to-speech, memory and other assistant components.
+The Lenovo will now be reformatted before Alpine is installed to the internal eMMC. The new environment will be a persistent installation rather than the temporary removable-media environment used during Phase 1.
+
+The operating system will be kept deliberately minimal. Components will be added only as required for Apollo Lake, including SSH, English/Chinese text input, LLM inference, speech recognition and text-to-speech.
+
+The OS is not currently an optimisation target. It will only be revisited if a concrete requirement demonstrates that Alpine is unsuitable.
 
 ## AI System
 
@@ -73,6 +79,12 @@ Initial candidate models include:
 
 These are candidates for investigation, not yet selected models.
 
+## GPU Acceleration
+
+The Intel HD Graphics 500 is exposed through Linux `i915`, and Vulkan is available through Mesa on Alpine. This establishes the possibility of using the iGPU for compatible workloads, but does not establish that Vulkan offloading will improve LLM performance.
+
+During LLM testing, CPU-only inference and relevant Vulkan GPU offloading will be compared using controlled workloads where practical. The iGPU will not be assumed to provide a performance benefit merely because Vulkan is available.
+
 ## Open Questions
 
 - Which small LLM provides satisfactory English generation?
@@ -81,7 +93,7 @@ These are candidates for investigation, not yet selected models.
 - What RAM does each candidate actually consume on the Lenovo?
 - What generation speed and response latency are achievable?
 - Which quantisation provides an appropriate quality/resource trade-off?
-- Does the selected LLM require a lighter operating system?
+- Does the Intel HD Graphics 500 provide useful LLM acceleration through Vulkan?
 - Which inference runtime is most appropriate?
 - Which ASR system is practical?
 - Which TTS system is practical?
