@@ -7,10 +7,9 @@
 **Kernel:** 6.18.35-0-lts  
 **Power:** AC connected
 
-## Question
+## Main Question
 
-How does the Intel Celeron N3350 behave under sustained CPU workloads, and what level of CPU performance can it maintain without excessive thermal throttling?
-
+How does the N3350 behave under sustained CPU load, and what thermal conditions accompany that behaviour?
 ## Purpose
 
 This experiment establishes a practical CPU performance and thermal baseline for Project Apollo Lake.
@@ -110,6 +109,66 @@ Look for evidence of:
 The N3350 will reach high CPU utilisation under sustained load and will initially operate at relatively high reported frequencies, followed by frequency and temperature stabilisation as the CPU reaches its thermal and power operating limits.
 
 The exact sustained performance and thermal behaviour must be measured rather than assumed.
+
+
+## Method Summary
+
+The experiment was conducted on the Lenovo using Alpine 3.24.1.
+
+The laptop was connected to AC power and placed on a flat hard surface with its ventilation openings unobstructed.
+
+Before the actual benchmark:
+
+CPU frequency reporting was verified through sysfs
+CPU utilisation measurement was verified with mpstat
+temperature measurement was verified through the TCPU thermal zone
+stress-ng was installed and tested
+the benchmark script was developed to collect the measurements into CSV format
+
+The network was disconnected during the final benchmark run.
+
+The script recorded, once per second:
+
+CPU 0 utilisation
+CPU 1 utilisation
+CPU 0 reported frequency
+CPU 1 reported frequency
+TCPU temperature
+
+The test sequence was:
+
+30 s   idle baseline
+60 s   one-core stress-ng load
+30 s   idle recovery
+120 s  two-core stress-ng load
+30 s   final idle
+
+During development, an error was found in the mpstat parsing logic: the script initially used the wrong output column when calculating idle percentage, resulting in incorrect utilisation values. The parser was corrected to use the proper %idle field, and a short dry run was then performed to validate the corrected instrumentation before the full experiment.
+
+The final result set was saved locally on the Lenovo and then copied to the Chromebook. The clean CSV contained 265 measurement samples plus its header.
+
+Results
+
+The final experiment established approximately:
+
+100% utilisation on the loaded core during one-core stress
+~100% utilisation on both cores during two-core stress
+average two-core temperature of 51.3°C
+maximum observed TCPU temperature of 54°C
+stable reported CPU frequency during one-core stress
+no obvious thermal-frequency collapse during the short test
+two-core stress-ng throughput of approximately 1.91× the one-core result
+
+
+# Conclusion
+
+
+The N3350 can sustain full utilisation of both cores for the duration tested without approaching its observed 105.05°C thermal trip point or showing obvious thermal-frequency collapse.
+
+This does not establish indefinite or 30-minute endurance; that belongs to the integrated assistant stage.
+
+
+
 
 ## Status
 
