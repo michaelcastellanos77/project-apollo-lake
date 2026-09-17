@@ -66,14 +66,21 @@ Not yet implemented
 
 Find the smallest practical LLM that provides satisfactory Apollo Lake conversational capability in English, Simplified Chinese and mixed English/Chinese interaction, while leaving sufficient system resources for the rest of the offline assistant.
 
-After a model meets the five core linguistic/functional requirements, the next performance target is:
+After a model meets the five core linguistic/functional requirements, the next performance gate is:
 
 - **minimum 3.5 generated tokens/s**
 - **minimum 30 prompt tokens/s**
 
 These are project targets rather than claims about what the hardware must achieve. Generation tokens/s is the primary conversational metric; prompt tokens/s will be measured using controlled prompts because it depends strongly on input length/content.
 
-LLM investigation will continue from the current 1.5B leader in both directions: lighter models will be tested for the possibility of meeting the linguistic requirements while exceeding the speed target, while selected heavier models will be tested to determine whether additional model capacity remains practical on the N3350/HD 500.
+The search strategy is now deliberately staged rather than simply moving to ever-larger models:
+
+1. Test a lighter modern candidate capable of potentially clearing the performance gate — **Qwen3-0.6B is next**.
+2. Test other ~0.5–1.1B candidates such as Hunyuan-0.5B-Instruct, CT-LLM 0.9B, MiniCPM5-1B and ZGCM-1 1.1B.
+3. Compare the ~1.5–1.8B candidates against the current Qwen2.5-1.5B leader.
+4. Only then consider selected 2B+ candidates if no smaller model satisfies the linguistic and performance requirements, or if a larger model offers a clearly justified capability needed by Apollo Lake.
+
+This keeps the project focused on finding the **smallest practical satisfactory model**, rather than maximising parameter count.
 
 ## LLM Evaluation Methodology
 
@@ -92,6 +99,7 @@ For each candidate, linguistic suitability is assessed before performance optimi
 11. Where Vulkan is applicable, verify the Vulkan device independently, verify llama.cpp device discovery, and perform CPU/GPU comparison using the same model/configuration and controlled prompts where practical.
 12. Record functional failures, factual-reliability problems, crashes and resource/compatibility issues as first-class results rather than discarding them.
 13. Do not rank untested candidates numerically; mark them as pending evaluation.
+14. After linguistic suitability, explicitly check the 3.5 t/s generation and 30 t/s prompt-processing performance gates using controlled workloads.
 
 ## Current LLM Investigation
 
@@ -104,22 +112,29 @@ The ranking is empirical and provisional. It applies only to candidates actually
 
 ### Evaluated heavier candidate
 
-**Qwen2.5-1.5B-Instruct Q4_K_M** has completed the current linguistic and acceleration evaluation. It is currently the leading candidate but does not yet meet the later 3.5 t/s generation target based on observed Vulkan throughput.
+**Qwen2.5-1.5B-Instruct Q4_K_M** has completed the current linguistic and acceleration evaluation. It is currently the leading candidate but does not yet meet the later performance target of 3.5 t/s generation based on observed Vulkan throughput.
 
 ### Pending candidates
 
 The next candidates under consideration include:
 
+**Next:**
 - Qwen3-0.6B
+
+**Lighter / ~1B:**
 - Hunyuan-0.5B-Instruct
 - Chinese-Tiny-LLM (CT-LLM 0.9B)
-- MiniCPM5 / MiniCPM5-1B
+- MiniCPM5-1B
 - ZGCM-1 1.1B
+
+**~1.5–1.8B:**
 - Qwen2.5-Coder-1.5B
 - DeepSeek-R1-Distill-Qwen-1.5B
 - OpenCoder ~1.5B
 - RWKV-6 ~1.6B
 - InternLM2.5-1.8B-Chat
+
+Selected 2B+ candidates may be added later if the smaller candidates do not satisfy the project gates or if a larger model has a specific capability justification.
 
 Candidate status does not imply final selection or a ranking position.
 
@@ -230,9 +245,10 @@ A candidate should not be considered to meet these targets from a single unusual
 
 ## Open Questions
 
-- Can a lighter model such as Qwen3-0.6B meet the five linguistic requirements while exceeding the 3.5 t/s generation and 30 t/s prompt targets?
+- Can Qwen3-0.6B satisfy the five linguistic requirements while exceeding the 3.5 t/s generation and 30 t/s prompt targets?
 - Does MiniCPM5-1B provide a better bilingual quality/speed trade-off?
 - Can a heavier 1.8B-class model such as InternLM2.5-1.8B-Chat provide a meaningful quality improvement while remaining practical on the N3350/HD 500?
+- Do any ~1.5B candidates materially improve factual reliability or instruction following while remaining within the performance/resource envelope?
 - Which candidate has the best RAM headroom for ASR, TTS and memory components?
 - What quantisation provides the best quality/resource trade-off for the eventual selected model?
 - Can any candidate sustain the target throughput for longer sessions rather than only short interactive tests?
