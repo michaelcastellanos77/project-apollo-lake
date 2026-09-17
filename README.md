@@ -31,8 +31,7 @@ The project will investigate how capable a useful bilingual conversational AI sy
 - CPU: Intel Celeron N3350
 - RAM: 4 GB
 - Storage: 32 GB
-- Current test operating system: Ubuntu 26.04 LTS
-- Final operating system: yet to be decided
+- Reference operating system for Phase 2 onward: Alpine Linux x86-64
 
 ## Project Philosophy
 
@@ -60,27 +59,32 @@ Key findings include:
 - Raw sequential eMMC read measured at 161.2 MB/s
 - Short sustained CPU testing reached approximately 54°C maximum CPU temperature without observed thermal collapse
 
-Phase 1 is complete. Further benchmarking will be targeted only at measurements required for later engineering decisions.
+Phase 1 is complete. Further hardware benchmarking will be targeted only at measurements required for later engineering decisions.
 
-The current test environment is Ubuntu 26.04 LTS. The final operating system has deliberately not yet been selected.
+**Current focus: LLM research and selection using Alpine Linux.** Alpine Linux has been selected as the lightweight reference operating system for Phase 2 and subsequent development unless a concrete compatibility or engineering requirement causes this decision to be revisited.
 
-**Current focus: LLM research and selection.** Small bilingual LLMs are being tested from the bottom up to find the smallest model that provides satisfactory English, Simplified Chinese and mixed-language conversational capability.
+The Lenovo will be reformatted before the Alpine installation so that the experimental environment starts from a clean system. Alpine will then be configured with only the components required for Apollo Lake, including SSH, English/Chinese text input, LLM inference, speech recognition and text-to-speech as development progresses.
 
-If Ubuntu prevents a suitable model from running satisfactorily, a lighter operating system will be investigated and LLM testing will continue. Even if a suitable model is found on Ubuntu, a lighter operating system may later be evaluated to free resources for speech, memory and other components.
+Initial LLM testing will proceed from very small bilingual models upward to find the smallest model that provides satisfactory English, Simplified Chinese and mixed-language conversational capability. The Intel HD Graphics 500's Vulkan capability will also be tested for actual LLM acceleration rather than assumed to be useful.
 
 ## Roadmap
 
 - [x] Document Lenovo hardware
 - [x] Establish targeted hardware performance baseline
+- [x] Select Alpine Linux as the lightweight reference operating system
+- [ ] Reformat Lenovo and install Alpine Linux to internal eMMC
+- [ ] Configure SSH access from Chromebook
+- [ ] Configure English and Chinese text input
 - [ ] Research and test small bilingual LLMs
 - [ ] Select initial LLM and model configuration
+- [ ] Test CPU-only and Vulkan-assisted inference where applicable
 - [ ] Select/configure inference runtime
-- [ ] Determine final operating system based on LLM and complete-system requirements
+- [ ] Verify reliable fully offline LLM operation
 - [ ] Design memory architecture
 - [ ] Implement short-term memory
 - [ ] Implement persistent long-term memory
-- [ ] Implement offline speech recognition
-- [ ] Implement offline text-to-speech
+- [ ] Select offline speech-recognition system
+- [ ] Select offline text-to-speech system
 - [ ] Integrate complete voice pipeline
 - [ ] Optimise CPU, memory and thermals
 - [ ] Establish final performance measurements
@@ -115,24 +119,31 @@ Further hardware benchmarking will only be performed where it supports a specifi
 
 ### Phase 2 — LLM Research and Selection
 
+- [x] Select Alpine Linux as the lightweight reference environment
+- [ ] Reformat Lenovo and install Alpine Linux to internal eMMC
+- [ ] Configure SSH access
+- [ ] Configure English and Chinese text input
 - [ ] Define practical LLM requirements
 - [ ] Research extremely small bilingual models
 - [ ] Verify English generation capability
 - [ ] Verify Simplified Chinese generation capability
 - [ ] Verify English ↔ Chinese interaction
 - [ ] Verify mixed English/Chinese conversation
-- [ ] Test candidate models on Ubuntu 26.04
 - [ ] Measure practical RAM usage and generation performance
+- [ ] Test CPU-only inference
+- [ ] Test Vulkan GPU offloading where applicable
 - [ ] Test relevant quantisation levels where useful
 - [ ] Select the smallest practical LLM that meets project requirements
 
 ### Phase 3 — Operating System and Inference Runtime
 
-- [ ] Determine operating-system requirements from the selected LLM and complete assistant architecture
-- [ ] Continue with Ubuntu if it provides sufficient resources
-- [ ] Investigate lighter operating systems if additional resources are required
+Alpine Linux is currently the reference operating system for the remainder of development. The operating system will not be treated as an active optimisation problem unless a concrete engineering requirement or compatibility issue requires revisiting it.
+
+- [x] Select Alpine Linux as the lightweight reference operating system
+- [ ] Configure the Alpine runtime environment around the selected LLM and complete assistant architecture
 - [ ] Select/configure the inference runtime
 - [ ] Verify reliable fully offline LLM operation
+- [ ] Revisit the OS only if a concrete requirement demonstrates that Alpine is unsuitable
 
 ### Phase 4 — Speech, Memory and Assistant Pipeline
 
