@@ -1,6 +1,6 @@
 # Current Project State
 
-Last updated: 2026-09-17
+Last updated: 2026-09-18
 
 ## Current Phase
 
@@ -48,8 +48,10 @@ The OS is not currently an optimisation target. It will only be revisited if a c
 
 ## AI System
 
-**Current provisional LLM leader:** Qwen3-0.6B Q4_K_M  
+**Current provisional LLM leader:** Qwen3-0.6B Q4_K_M — **deferred / investigation flagged**  
 **Final selection:** Not yet made
+
+Qwen3-0.6B is no longer being actively investigated during the current development pass. After a clean reboot, the exact previously successful CPU command reproduced a segmentation fault, and Vulkan attempts also reproduced crashes. The root cause remains unresolved. Experiment 010 is explicitly flagged for later investigation if time permits.
 
 Qwen3-0.6B is now the current provisional leader after initial CPU and Vulkan evaluation. It has a much smaller model footprint than Qwen2.5-1.5B and observed generation of approximately 3.6–4.0 t/s across the individual substantive tests. It has not passed every linguistic requirement and has not met the 30 t/s prompt-processing target, so this promotion is provisional and can be changed as more candidates are evaluated.
 
@@ -66,7 +68,9 @@ Not yet implemented
 
 ## Current Objective
 
-Find the smallest practical LLM that provides satisfactory Apollo Lake conversational capability in English, Simplified Chinese and mixed English/Chinese interaction, while leaving sufficient system resources for the rest of the offline assistant.
+**Immediate objective: establish the minimum-resource offline speech system that still provides usable speech recognition and text-to-speech on the target hardware.** LLM selection is temporarily paused so the project can determine how much RAM, CPU time and storage the speech subsystem requires alongside a future LLM.
+
+The LLM objective remains: find the smallest practical LLM that provides satisfactory Apollo Lake conversational capability in English, Simplified Chinese and mixed English/Chinese interaction, while leaving sufficient system resources for the rest of the offline assistant.
 
 After a model meets the five core linguistic/functional requirements, the next performance gate is:
 
@@ -95,6 +99,20 @@ For each candidate, linguistic suitability is assessed before performance optimi
 12. Record functional failures, factual-reliability problems, crashes and resource/compatibility issues as first-class results rather than discarding them.
 13. Do not rank untested candidates numerically; mark them as pending evaluation.
 14. After linguistic suitability, explicitly check the 3.5 t/s generation and 30 t/s prompt-processing performance gates using controlled workloads.
+
+## Current Speech-System Investigation
+
+**Status: next development target**
+
+The speech subsystem has not yet been selected. The next engineering work will establish:
+
+1. the minimum-resource offline speech-recognition system that is sufficiently usable;
+2. the minimum-resource offline text-to-speech system that is sufficiently usable;
+3. their idle and active RAM/CPU/storage requirements;
+4. whether they can coexist with a future LLM within the 4 GB hardware envelope; and
+5. a reproducible baseline configuration before the assistant pipeline is integrated.
+
+LLM evaluation will resume after this speech baseline unless a concrete speech-system result requires revisiting the LLM choice sooner.
 
 ## Current LLM Investigation
 
