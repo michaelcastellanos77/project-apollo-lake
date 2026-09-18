@@ -1,6 +1,6 @@
 # Apollo Lake LLM Ranking
 
-**Last updated:** 2026-09-17  
+**Last updated:** 2026-09-18  
 **Phase:** Phase 2 — LLM research and selection
 
 ## Purpose
@@ -26,11 +26,11 @@ A model that has not been tested is **not ranked below an evaluated model merely
 
 | Rank | Model | Parameters | Current status | Observed generation | Key evidence |
 |---|---|---:|---|---:|---|
-| **1** | **Qwen3-0.6B Q4_K_M** | 0.6B | **Current provisional leader** | **3.6–4.0 t/s CPU/Vulkan** | Much smaller footprint; generation target exceeded in observed runs; strong basic English/Chinese and EN→ZH; full Vulkan offload works |
+| **1** | **Qwen3-0.6B Q4_K_M** | 0.6B | **Historical provisional leader; 🚩 deferred investigation** | **3.6–4.0 t/s in original runs** | Original experiment showed strong throughput, but post-reboot reproduction now segfaults on the previously successful CPU command; Vulkan attempts also crash |
 | **2** | **Qwen2.5-1.5B-Instruct Q4_K_M** | 1.5B | Evaluated comparison candidate | **2.3–2.5 t/s Vulkan** | Stronger tested mixed-language recovery; useful Vulkan acceleration; lower observed generation throughput |
 | **3** | **Qwen2.5-0.5B-Instruct Q4_K_M** | 0.5B | Evaluated low-resource baseline | **2.1–2.6 t/s CPU** | Runs reliably; weaker translation naturalness and failed tested mixed-language interaction |
 
-**Important:** the ranking is provisional and can change as more candidates are evaluated. Qwen3-0.6B is promoted because its observed generation throughput is substantially higher than Qwen2.5-1.5B while using a much smaller model footprint. It has **not** passed every linguistic requirement and has **not** met the 30 t/s prompt-processing target, so this is not a final model selection.
+**Important:** the ranking is provisional and can change as more candidates are evaluated. **As of 2026-09-18, LLM evaluation is paused while the speech subsystem is established. Qwen3-0.6B is explicitly deferred for later investigation.** Qwen3-0.6B is promoted because its observed generation throughput is substantially higher than Qwen2.5-1.5B while using a much smaller model footprint. It has **not** passed every linguistic requirement and has **not** met the 30 t/s prompt-processing target, so this is not a final model selection.
 
 ## Performance gate
 
@@ -42,6 +42,18 @@ Once a model passes the five linguistic/functional requirements, Apollo Lake app
 A candidate should not be considered to meet these targets from a single unusually fast prompt. Prompt throughput must be measured using controlled prompts of known length/content, and generation should be confirmed across representative bilingual/conversational prompts.
 
 Qwen3-0.6B has produced **3.6–4.0 t/s generation** across the individual substantive CPU and Vulkan tests performed so far, but this is not yet a statistically rigorous or sustained benchmark result.
+
+## 🚩 Qwen3-0.6B — deferred investigation
+
+Experiment 010 is intentionally flagged for later investigation rather than being allowed to block the project.
+
+After a clean reboot and with swap disabled, the exact CPU command that had previously produced successful Qwen3 results reproduced a **segmentation fault**. The model also reproduced segmentation faults during Vulkan/iGPU attempts. The root cause has not been isolated.
+
+This does **not** establish that Alpine, llama.cpp, or the Intel HD Graphics 500 Vulkan stack is generally broken: Qwen2.5-1.5B subsequently ran successfully on both CPU and Vulkan, with approximately **1.7 t/s CPU** and **2.5 t/s Vulkan** generation on the same English benchmark prompt.
+
+Qwen2.5-0.5B was also re-downloaded and ran on CPU at **2.2 t/s**, while its full Vulkan attempt segfaulted.
+
+Return to Experiment 010 if time permits. Possible future investigation areas include the Qwen3 GGUF/runtime interaction and the Intel Vulkan-driver path, but no cause should be assumed until tested.
 
 ## Qwen3-0.6B current position
 
